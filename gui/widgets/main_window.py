@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QListWidget, QWidget, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QTextEdit
 
-from app.files import get_file_names, delete_file, read_file
+from app.files import get_list_notes, delete_file, read_file, get_file_names
 from gui.widgets.form import Form
 from gui.widgets.info import InfoMessageBox
 
@@ -19,7 +19,7 @@ class MainWindows(QWidget):
         self.left_child_layout.addWidget(QLabel("Список заметок"))
 
         self.list_widget = QListWidget()
-        self.list_widget.addItems(get_file_names("\\files"))
+        self.list_widget.addItems(get_list_notes("\\files"))
         self.list_widget.clicked.connect(self.list_widget_clicked)
         self.left_child_layout.addWidget(self.list_widget)
 
@@ -41,7 +41,7 @@ class MainWindows(QWidget):
 
     def update_list(self):
         self.list_widget.clear()
-        self.list_widget.addItems(get_file_names("\\files"))
+        self.list_widget.addItems(get_list_notes("\\files"))
 
     def btn_add_clicked(self):
         dialog = Form(self)
@@ -57,6 +57,7 @@ class MainWindows(QWidget):
             return
 
         delete_file(item.text())
+        self.text.clear()
         self.update_list()
 
     def list_widget_clicked(self):
