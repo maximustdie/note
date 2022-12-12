@@ -59,3 +59,12 @@ class Form(QDialog):
 
     def btn_exit_clicked(self):
         self.close()
+
+
+class EditForm(Form):
+    def __init__(self, title, text):
+        super(EditForm, self).__init__()
+        self.setWindowTitle("Изменить заметку")
+        self.note_title.line_edit.setText(title)
+        self.note_title.line_edit.setReadOnly(True)
+        self.text.setText(text)
