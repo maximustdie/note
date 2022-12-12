@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLineEdit, QLabel, QHBoxLayout, QTextEdit, QPushButton
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLineEdit, QLabel, QHBoxLayout, QTextEdit, QPushButton, QCheckBox
 
-from app.files import write_file
+from app.files import write_file, write_file_in_archive
 from gui.widgets.info import InfoMessageBox
 
 
@@ -27,12 +27,16 @@ class Form(QDialog):
         self.note_title = LabelLineEdit("Заголовок")
         self.vertical_layout.addLayout(self.note_title.get_item())
 
-        self.vertical_layout.addWidget(QLabel("Описанме"))
+        self.vertical_layout.addWidget(QLabel("Описание"))
 
         self.text = QTextEdit()
         self.vertical_layout.addWidget(self.text)
 
-        self.btn_save = QPushButton("Сохранмть")
+        self.is_archive = QCheckBox("Отправить в архив")
+        self.is_archive.hide()
+        self.vertical_layout.addWidget(self.is_archive)
+
+        self.btn_save = QPushButton("Сохранить")
         self.btn_save.clicked.connect(self.btn_save_clicked)
         self.vertical_layout.addWidget(self.btn_save)
 
@@ -62,9 +66,31 @@ class Form(QDialog):
 
 
 class EditForm(Form):
-    def __init__(self, title, text):
+    def __init__(self, title, text, arc=False):
         super(EditForm, self).__init__()
+
         self.setWindowTitle("Изменить заметку")
         self.note_title.line_edit.setText(title)
         self.note_title.line_edit.setReadOnly(True)
         self.text.setText(text)
+
+        self.is_archive.show()
+        if arc:
+            self.is_archive.setChecked(True)
+
+    def btn_save_clicked(self):
+        title = self.note_title.line_edit.text()
+        text = self.text.toPlainText()
+
+        if not text:
+            msg = InfoMessageBox("Ошибка!", "Необходимо добавить описание заметки!")
+            msg.show()
+            return
+
+        if self.is_archive.isChecked():
+            write_file_in_archive(title, text)
+            self.close()
+
+        else:
+            write_file(title, text)
+            self.close()

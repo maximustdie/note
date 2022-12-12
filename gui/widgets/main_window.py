@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QListWidget, QWidget, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QTextEdit
+from PyQt5.QtWidgets import QListWidget, QWidget, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QTextEdit, QRadioButton
 
-from app.files import get_list_notes, delete_file, read_file
+from app.files import get_list_notes, delete_file, read_file, delete_file_in_archive
 from gui.widgets.form import Form, EditForm
 from gui.widgets.info import InfoMessageBox
 
@@ -23,6 +23,15 @@ class MainWindows(QWidget):
         self.list_widget.clicked.connect(self.list_widget_clicked)
         self.left_child_layout.addWidget(self.list_widget)
 
+        self.radio1 = QRadioButton("Показать текущие заметки")
+        self.radio1.setChecked(True)
+        self.radio1.clicked.connect(self.radio_state_no_archive)
+        self.left_child_layout.addWidget(self.radio1)
+
+        self.radio2 = QRadioButton("Показать заметки в архиве")
+        self.radio2.clicked.connect(self.radio_state_archive)
+        self.left_child_layout.addWidget(self.radio2)
+
         self.btn_add = QPushButton("Добавить заметку")
         self.btn_add.clicked.connect(self.btn_add_clicked)
         self.left_child_layout.addWidget(self.btn_add)
@@ -31,7 +40,7 @@ class MainWindows(QWidget):
         self.btn_edit.clicked.connect(self.btn_edit_clicked)
         self.left_child_layout.addWidget(self.btn_edit)
 
-        self.btn_del = QPushButton("Удалить Заметку")
+        self.btn_del = QPushButton("Удалить заметку")
         self.btn_del.clicked.connect(self.btn_del_clicked)
         self.left_child_layout.addWidget(self.btn_del)
 
@@ -47,10 +56,17 @@ class MainWindows(QWidget):
         self.list_widget.clear()
         self.list_widget.addItems(get_list_notes("\\files"))
 
+    def update_list_arc(self):
+        self.list_widget.clear()
+        self.list_widget.addItems(get_list_notes("\\archive_files"))
+
     def btn_add_clicked(self):
         dialog = Form(self)
         dialog.exec_()
-        self.update_list()
+        if self.radio1.isChecked():
+            self.update_list()
+        else:
+            self.update_list_arc()
 
     def btn_del_clicked(self):
         item = self.list_widget.currentItem()
@@ -60,9 +76,14 @@ class MainWindows(QWidget):
             msg.show()
             return
 
-        delete_file(item.text())
+        if self.radio1.isChecked():
+            delete_file(item.text())
+            self.update_list()
+        else:
+            delete_file_in_archive(item.text())
+            self.update_list_arc()
         self.text.clear()
-        self.update_list()
+
 
     def btn_edit_clicked(self):
         item = self.list_widget.currentItem()
@@ -73,14 +94,38 @@ class MainWindows(QWidget):
             return
 
         title = item.text()
-        text = read_file(title)
-        dialog = EditForm(title, text)
-        dialog.exec_()
-        self.update_list()
+
+        if self.radio1.isChecked():
+            text = read_file(title)
+            dialog = EditForm(title, text)
+            dialog.exec_()
+            self.update_list()
+        else:
+            dir_f = "archive_files"
+            text = read_file(title, dir_f)
+            dialog = EditForm(title, text, True)
+            dialog.exec_()
+            self.update_list_arc()
+
         self.text.clear()
 
     def list_widget_clicked(self):
         item = self.list_widget.currentItem()
         self.text.clear()
-        text = read_file(item.text())
+
+        if self.radio1.isChecked():
+            text = read_file(item.text())
+        else:
+            dir_f = "archive_files"
+            text = read_file(item.text(), dir_f)
+
         self.text.insertPlainText(text)
+
+    def radio_state_no_archive(self):
+        self.text.clear()
+        self.update_list()
+
+    def radio_state_archive(self):
+        self.text.clear()
+        self.update_list_arc()
+
