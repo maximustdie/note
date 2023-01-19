@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QListWidget, QWidget, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QTextEdit, QRadioButton
+from PyQt6.QtWidgets import QListWidget, QWidget, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QTextEdit, QRadioButton
 
 from app.files import get_list_notes, delete_file, read_file, delete_file_in_archive
 from gui.widgets.form import Form, EditForm
@@ -62,7 +62,7 @@ class MainWindows(QWidget):
 
     def btn_add_clicked(self):
         dialog = Form(self)
-        dialog.exec_()
+        dialog.exec()
         if self.radio1.isChecked():
             self.update_list()
         else:
@@ -98,13 +98,13 @@ class MainWindows(QWidget):
         if self.radio1.isChecked():
             text = read_file(title)
             dialog = EditForm(title, text)
-            dialog.exec_()
+            dialog.exec()
             self.update_list()
         else:
             dir_f = "archive_files"
             text = read_file(title, dir_f)
             dialog = EditForm(title, text, True)
-            dialog.exec_()
+            dialog.exec()
             self.update_list_arc()
 
         self.text.clear()

@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import QMessageBox
 
 
 class InfoMessageBox:
@@ -8,4 +8,4 @@ class InfoMessageBox:
         self.msg.setText(text)
 
     def show(self):
-        self.msg.exec_()
+        self.msg.exec()
