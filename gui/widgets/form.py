@@ -54,7 +54,7 @@ class Form(QDialog):
     def btn_change_xlsx_clicked(self):
         dist = os.getcwd() + f'/files/{self.note_title.line_edit.text()}/{self.note_title.line_edit.text()}.txt'
         wb_patch = QFileDialog.getOpenFileName(self)[0]
-        print('dsadasdas')
+        print('123123123')
         if not wb_patch:
             return
         copy_file(wb_patch, dist)
