@@ -24,6 +24,8 @@ class Form(QDialog):
     def __init__(self, parent=None):
         super(Form, self).__init__(parent)
 
+        self.xls_file = None
+
         self.vertical_layout = QVBoxLayout(self)
         self.setWindowTitle("Добавить заметку")
 
@@ -52,12 +54,9 @@ class Form(QDialog):
         self.vertical_layout.addWidget(self.btn_exit)
 
     def btn_change_xlsx_clicked(self):
-        dist = os.getcwd() + f'/files/{self.note_title.line_edit.text()}/{self.note_title.line_edit.text()}.txt'
-        wb_patch = QFileDialog.getOpenFileName(self)[0]
-        print('123123123')
-        if not wb_patch:
-            return
-        copy_file(wb_patch, dist)
+        # dist = os.getcwd() + f'/files/{self.note_title.line_edit.text()}/{self.note_title.line_edit.text()}.txt'
+        wb_patch = QFileDialog.getOpenFileName(self, 'Выберите файл', 'c:\\', "Файлы Exsel (*.xlsx)")[0]
+        self.xls_file = wb_patch
 
     def btn_save_clicked(self):
         title = self.note_title.line_edit.text()
@@ -73,7 +72,12 @@ class Form(QDialog):
             msg.show()
             return
 
-        write_file(title, text)
+        if not self.xls_file:
+            msg = InfoMessageBox("Ошибка!", "Необходимо добавить xls-файл для графика!")
+            msg.show()
+            return
+
+        write_file(title, text, self.xls_file)
         self.close()
 
     def btn_exit_clicked(self):
@@ -103,9 +107,13 @@ class EditForm(Form):
             return
 
         if self.is_archive.isChecked():
-            write_file_in_archive(title, text)
+            self.xls_file = f"files/{title}/{title}.xlsx"
+            print(self.xls_file)
+            write_file_in_archive(title, text, self.xls_file)
             self.close()
 
         else:
-            write_file(title, text)
+            self.xls_file = f"archive_files/{title}/{title}.xlsx"
+            print(self.xls_file)
+            write_file(title, text, self.xls_file)
             self.close()
