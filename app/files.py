@@ -1,4 +1,9 @@
 import os
+import shutil
+
+
+def copy_file():
+    pass
 
 
 def write_file(title, text):
