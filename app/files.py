@@ -29,16 +29,16 @@ def get_list_notes(dir_name):
 
 
 def delete_file(name_file):
-    path = os.getcwd() + "\\files\\" + name_file + ".txt"
+    path = os.getcwd() + "/files/" + name_file + ".txt"
     os.remove(path)
 
 
 def delete_file_in_archive(name_file):
-    path = os.getcwd() + "\\archive_files\\" + name_file + ".txt"
+    path = os.getcwd() + "/archive_files/" + name_file + ".txt"
     os.remove(path)
 
 
 def read_file(name_file, dir="files"):
-    path = os.getcwd() + f"\\{dir}\\" + name_file + ".txt"
+    path = os.getcwd() + f"/{dir}/" + name_file + ".txt"
     with open(path, 'r') as opened_file:
         return opened_file.read()

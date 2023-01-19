@@ -19,7 +19,7 @@ class MainWindows(QWidget):
         self.left_child_layout.addWidget(QLabel("Список заметок"))
 
         self.list_widget = QListWidget()
-        self.list_widget.addItems(get_list_notes("\\files"))
+        self.list_widget.addItems(get_list_notes("/files"))
         self.list_widget.clicked.connect(self.list_widget_clicked)
         self.left_child_layout.addWidget(self.list_widget)
 
@@ -54,11 +54,11 @@ class MainWindows(QWidget):
 
     def update_list(self):
         self.list_widget.clear()
-        self.list_widget.addItems(get_list_notes("\\files"))
+        self.list_widget.addItems(get_list_notes("/files"))
 
     def update_list_arc(self):
         self.list_widget.clear()
-        self.list_widget.addItems(get_list_notes("\\archive_files"))
+        self.list_widget.addItems(get_list_notes("/archive_files"))
 
     def btn_add_clicked(self):
         dialog = Form(self)
