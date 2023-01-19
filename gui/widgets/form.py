@@ -1,4 +1,5 @@
-from PyQt6.QtWidgets import QDialog, QVBoxLayout, QLineEdit, QLabel, QHBoxLayout, QTextEdit, QPushButton, QCheckBox
+from PyQt6.QtWidgets import QDialog, QVBoxLayout, QLineEdit, QLabel, QHBoxLayout, QTextEdit, QPushButton, QCheckBox, \
+    QFileDialog
 
 from app.files import write_file, write_file_in_archive
 from gui.widgets.info import InfoMessageBox
@@ -37,7 +38,7 @@ class Form(QDialog):
         self.vertical_layout.addWidget(self.is_archive)
 
         self.btn_change_xlsx = QPushButton("Выбрать файл с графиком")
-        # self.btn_save.clicked.connect(self.btn_change_xlsx_clicked)
+        self.btn_change_xlsx.clicked.connect(self.btn_change_xlsx_clicked)
         self.vertical_layout.addWidget(self.btn_change_xlsx)
 
         self.btn_save = QPushButton("Сохранить")
@@ -49,7 +50,9 @@ class Form(QDialog):
         self.vertical_layout.addWidget(self.btn_exit)
 
     def btn_change_xlsx_clicked(self):
-        pass
+        wb_patch = QFileDialog.getOpenFileName(self, 'Выберите файл', 'c:\\', "Файлы Exsel (*.xlsx)")
+        print(wb_patch)
+
 
     def btn_save_clicked(self):
         title = self.note_title.line_edit.text()
