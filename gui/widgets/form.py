@@ -36,6 +36,10 @@ class Form(QDialog):
         self.is_archive.hide()
         self.vertical_layout.addWidget(self.is_archive)
 
+        self.btn_change_xlsx = QPushButton("Выбрать файл с графиком")
+        # self.btn_save.clicked.connect(self.btn_change_xlsx_clicked)
+        self.vertical_layout.addWidget(self.btn_change_xlsx)
+
         self.btn_save = QPushButton("Сохранить")
         self.btn_save.clicked.connect(self.btn_save_clicked)
         self.vertical_layout.addWidget(self.btn_save)
@@ -43,6 +47,9 @@ class Form(QDialog):
         self.btn_exit = QPushButton("Выход")
         self.btn_exit.clicked.connect(self.btn_exit_clicked)
         self.vertical_layout.addWidget(self.btn_exit)
+
+    def btn_change_xlsx_clicked(self):
+        pass
 
     def btn_save_clicked(self):
         title = self.note_title.line_edit.text()
