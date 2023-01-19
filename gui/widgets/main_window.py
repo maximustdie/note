@@ -84,7 +84,6 @@ class MainWindows(QWidget):
             self.update_list_arc()
         self.text.clear()
 
-
     def btn_edit_clicked(self):
         item = self.list_widget.currentItem()
 
@@ -128,4 +127,3 @@ class MainWindows(QWidget):
     def radio_state_archive(self):
         self.text.clear()
         self.update_list_arc()
-
