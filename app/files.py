@@ -2,8 +2,9 @@ import os
 import shutil
 
 
-def copy_file():
-    pass
+def copy_file(src, dist):
+    shutil.copy(src, dist)
+
 
 
 def write_file(title, text):
