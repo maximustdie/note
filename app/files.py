@@ -12,14 +12,6 @@ def write_file(title, text, xls_path):
     except:
         pass
 
-    try:
-        dist = f"files/{title}/{title}.xlsx"
-        print(xls_path)
-        print(dist)
-        shutil.copy(xls_path, dist)
-    except:
-        pass
-
     with open(f'files/{title}/{title}.txt', 'w') as opened_file:
         opened_file.write(text)
         try:
@@ -31,14 +23,6 @@ def write_file(title, text, xls_path):
 def write_file_in_archive(title, text, xls_path):
     try:
         os.mkdir(f"archive_files/{title}")
-    except:
-        pass
-
-    try:
-        dist = f"archive_files/{title}/{title}.xlsx"
-        print(xls_path)
-        print(dist)
-        shutil.copy(xls_path, dist)
     except:
         pass
 
@@ -63,9 +47,6 @@ def delete_file(name_file):
     path_file = os.getcwd() + f"/files/{name_file}/" + name_file + ".txt"
     os.remove(path_file)
 
-    xls_file = os.getcwd() + f"/files/{name_file}/" + name_file + ".xlsx"
-    os.remove(xls_file)
-
     path_dir = os.getcwd() + f"/files/{name_file}/"
     os.rmdir(path_dir)
 
@@ -73,9 +54,6 @@ def delete_file(name_file):
 def delete_file_in_archive(name_file):
     path_file = os.getcwd() + f"/archive_files/{name_file}/" + name_file + ".txt"
     os.remove(path_file)
-
-    xls_file = os.getcwd() + f"/archive_files/{name_file}/" + name_file + ".xlsx"
-    os.remove(xls_file)
 
     path_dir = os.getcwd() + f"/archive_files/{name_file}/"
     os.rmdir(path_dir)
