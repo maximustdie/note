@@ -24,8 +24,6 @@ class Form(QDialog):
     def __init__(self, parent=None):
         super(Form, self).__init__(parent)
 
-        self.xls_file = None
-
         self.vertical_layout = QVBoxLayout(self)
         self.setWindowTitle("Добавить заметку")
 
@@ -65,7 +63,7 @@ class Form(QDialog):
             return
 
 
-        write_file(title, text, self.xls_file)
+        write_file(title, text)
         self.close()
 
     def btn_exit_clicked(self):
@@ -95,13 +93,9 @@ class EditForm(Form):
             return
 
         if self.is_archive.isChecked():
-            self.xls_file = f"files/{title}/{title}.xlsx"
-            print(self.xls_file)
-            write_file_in_archive(title, text, self.xls_file)
+            write_file_in_archive(title, text)
             self.close()
 
         else:
-            self.xls_file = f"archive_files/{title}/{title}.xlsx"
-            print(self.xls_file)
-            write_file(title, text, self.xls_file)
+            write_file(title, text)
             self.close()

@@ -6,7 +6,7 @@ def copy_file(src, dist):
     shutil.copy(src, dist)
 
 
-def write_file(title, text, xls_path):
+def write_file(title, text):
     try:
         os.mkdir(f"files/{title}")
     except:
@@ -20,7 +20,7 @@ def write_file(title, text, xls_path):
             pass
 
 
-def write_file_in_archive(title, text, xls_path):
+def write_file_in_archive(title, text):
     try:
         os.mkdir(f"archive_files/{title}")
     except:
