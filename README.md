@@ -1,5 +1,6 @@
 # note
 
 запуск: 
-python main.py
+
+```python main.py```
 
