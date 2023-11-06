@@ -1,6 +1,6 @@
 # note
 
-запуск: 
+Запуск
 
 ```python main.py```
 
